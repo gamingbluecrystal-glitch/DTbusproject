@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartBus Admin – Transit Dispatcher & Fleet Management Portal</title>
+  <meta name="description" content="Manage public bus routes, stop coordinates, fleet vehicles, timetables, and Firebase cloud synchronization." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚌</text></svg>" />
+
+  <!-- Cache Control -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Pure CSS Stylesheet -->
+  <link rel="stylesheet" href="css/style.css?v=20261002_v5" />
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Admin Top Navigation Header -->
+    <header class="navbar">
+      <div class="navbar-inner">
+        <a href="admin.html" class="nav-brand" id="brand-header" title="SmartBus Admin Portal">
+          <div class="brand-badge">ADMIN</div>
+          <div>
+            <h1 class="brand-title">SmartBus Dispatcher</h1>
+          </div>
+        </a>
+
+        <div class="nav-controls">
+          <div id="db-status-badge" class="db-status-badge" title="Firebase Firestore: busapp-cf8fb">
+            <span class="status-dot"></span> Firebase Connecting...
+          </div>
+          <div class="nav-clock" id="nav-clock-time">--:--</div>
+          <a href="index.html" class="btn-nav-admin" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+            <span>🚌</span> Live Passenger App
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Admin Content Container -->
+    <main class="main-content" style="padding-top: 24px; padding-bottom: 32px;">
+      <div id="admin-content-pane"></div>
+    </main>
+
+    <!-- Application Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>SmartBus Dispatcher Portal &bull; Firebase Firestore Cloud Connected</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Firebase Web SDK (v10 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/data.js?v=20261002_v5"></script>
+  <script src="js/firebase.js?v=20261002_v5"></script>
+  <script src="js/engine.js?v=20261002_v5"></script>
+  <script src="js/storage.js?v=20261002_v5"></script>
+  <script src="js/admin.js?v=20261002_v5"></script>
+</body>
+</html>

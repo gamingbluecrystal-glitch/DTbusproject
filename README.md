@@ -53,7 +53,7 @@ Most small and mid-sized transit agencies cannot afford expensive GPS/VTS hardwa
 
 ## 🧮 Time-Based ETA Calculation Engine
 
-The core logic resides in [`src/services/etaEngine.ts`](src/services/etaEngine.ts).
+The core logic resides in [`js/engine.js`](file:///c:/Users/Admin/Desktop/DT%20project/js/engine.js).
 
 ### Mathematical Interpolation Algorithm
 
@@ -82,46 +82,21 @@ Given:
 
 ---
 
-## 🗄️ Relational Database Schema (Supabase / PostgreSQL)
+## 🗄️ Database Architecture (Firebase Firestore & Local Cache)
 
-The schema is defined in [`supabase/schema.sql`](supabase/schema.sql) and implemented with local persistence fallback in [`src/services/storageService.ts`](src/services/storageService.ts).
+The application connects to **Google Firebase Cloud Firestore** (`busapp-cf8fb`) using the Web SDK in [`js/firebase.js`](file:///c:/Users/Admin/Desktop/DT%20project/js/firebase.js), paired with an instant offline-first local cache in [`js/storage.js`](file:///c:/Users/Admin/Desktop/DT%20project/js/storage.js).
 
-### Main Tables
+### Features
+- **Real-time Synchronization (`onSnapshot`)**: Updates in stops, buses, routes, or trips made by an admin immediately stream live across all connected passenger devices without page refresh.
+- **Offline Resiliency**: Data persists locally in `localStorage`, allowing the app to load instantly even without an internet connection and sync seamlessly when online.
+- **Batch Writes**: Atomically synchronizes changes to Firestore in batches.
 
-1. **`stops`**
-   - `id` (UUID / String primary key)
-   - `code` (e.g. `DWK-04`)
-   - `name` (e.g. `Dwarka Circle`)
-   - `local_name` (Marathi: `द्वारका सर्कल`)
-   - `lat`, `lng` (Double precision geographic coordinates)
-   - `zone` (e.g. `Central Zone`, `East Zone`)
+### Cloud Collections
 
-2. **`buses`**
-   - `id`, `bus_number` (e.g. `BUS 102`)
-   - `plate_number` (e.g. `MH-15-EG-4819`)
-   - `model` (e.g. `Tata Starbus EV AC Low Floor`)
-   - `capacity` (Integer)
-   - `status` (`active`, `maintenance`, `inactive`)
-
-3. **`routes`**
-   - `id`, `route_number` (e.g. `101`)
-   - `name` (e.g. `Nashik Road ↔ CBS Express`)
-   - `origin_stop_id`, `destination_stop_id`
-   - `via` (e.g. `Bytco, Datta Mandir, Dwarka, Mumbai Naka`)
-   - `color` (Hex code for map line)
-   - `is_active` (Boolean)
-
-4. **`route_stops`**
-   - `route_id`, `stop_id`, `sequence_order`, `approx_minutes_from_prev`, `distance_km`
-
-5. **`trips`**
-   - `id`, `trip_number`, `route_id`, `bus_id`, `direction` (`UP` / `DOWN`), `days_of_week`, `is_active`
-
-6. **`timetables`**
-   - `trip_id`, `stop_id`, `arrival_time`, `departure_time`, `sequence_order`
-
-7. **`system_users`**
-   - `id`, `full_name`, `role` (`admin`, `operator`)
+1. **`stops`**: Bus stop geo-coordinates, bilingual naming, municipal transit zones.
+2. **`buses`**: Transit fleet registry, registration plates, models, and operational status.
+3. **`routes`**: Bus routes, polyline colors, ordered stop sequence, and intermediate distances.
+4. **`trips`**: Scheduled timetable trips, bus vehicle assignments, directions, and halt-by-halt arrival/departure times.
 
 ---
 
@@ -147,25 +122,19 @@ When IoT / AIS-140 GPS hardware or driver smartphone trackers become available:
 ---
 
 ## 🚀 Quick Start Guide
-
-### Prerequisites
-- Node.js 18+ and npm installed
-
-### 1. Install Dependencies
+ 
+No build step or Node dependencies required. SmartBus is built purely with standard HTML5, CSS3, and JavaScript.
+ 
+### Option 1: Direct File
+Simply double-click or open [index.html](file:///c:/Users/Admin/Desktop/DT%20project/index.html) directly in any modern browser.
+ 
+### Option 2: Local Static Server (Optional)
+Run any local static server of your choice:
 ```bash
-npm install
+# Python
+python -m http.server 8000
 ```
-
-### 2. Run Local Development Server
-```bash
-npm run dev
-```
-Open **`http://localhost:5173/`** in your browser.
-
-### 3. Build for Production
-```bash
-npm run build
-```
+Open **`http://localhost:8000/`** in your browser.
 
 ---
 
